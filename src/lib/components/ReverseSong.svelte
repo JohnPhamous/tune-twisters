@@ -7,6 +7,7 @@
 
 	let audioBuffer;
 	let reversedBuffer;
+	let isPlaying = false;
 	let sourceNode: AudioBufferSourceNode;
 
 	onMount(async () => {
@@ -52,6 +53,10 @@
 		sourceNode.connect(audioContext.destination);
 
 		sourceNode.start();
+		sourceNode.onended = () => {
+			isPlaying = false;
+		};
+		isPlaying = true;
 	}
 	function pause() {
 		if (!sourceNode) {
@@ -59,10 +64,14 @@
 		}
 
 		sourceNode.stop();
+		isPlaying = false;
 	}
 </script>
 
 <div>
-	<button on:click={play}>Play</button>
-	<button on:click={pause}>Stop</button>
+	{#if isPlaying}
+		<button on:click={pause}>Stop</button>
+	{:else}
+		<button on:click={play}>Play</button>
+	{/if}
 </div>
