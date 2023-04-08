@@ -3,10 +3,14 @@
 	import ReverseSong from './ReverseSong.svelte';
 
 	export let song: ISong;
+	export let handleNextSong: () => void;
 
 	let songTitleGuess: string = '';
 	let hint: string = '';
 	let lastGuessDistance = Infinity;
+
+	type State = 'GUESSING' | 'CORRECT' | 'GAVE UP';
+	let state: State = 'GUESSING';
 
 	function levenshteinDistance(s1: string, s2: string): number {
 		const m = s1.length;
@@ -51,12 +55,9 @@
 
 		// TODO: make this more engaging.
 		if (normalizedGuess === normalizedAnswer) {
-			alert('You got it!');
-			hint = '';
+			state = 'CORRECT';
 		} else {
 			const distance = levenshteinDistance(normalizedGuess, normalizedAnswer);
-
-			console.log(distance);
 
 			if (distance > lastGuessDistance) {
 				hint = `This guess is even worst than your last`;
@@ -83,22 +84,52 @@
 		const input = event.target as HTMLInputElement;
 		songTitleGuess = input.value;
 	}
+
+	function handleGiveUp() {
+		state = 'GAVE UP';
+	}
+
+	$: {
+		console.log('new song', song);
+		state = 'GUESSING';
+		songTitleGuess = '';
+		hint = '';
+	}
 </script>
 
 <article>
-	<h2>Answer: {song.title}</h2>
-	<!-- <audio controls src={`/songs/${song.path}`} /> -->
-	<ReverseSong {song} />
+	{#if state === 'GUESSING'}
+		<h2>What song is this?</h2>
+		<button on:click={handleGiveUp}>Give Up</button>
+		<ReverseSong {song} />
 
-	<form on:submit={handleSubmit}>
-		<input
-			type="text"
-			placeholder="Guess the song name..."
-			value={songTitleGuess}
-			on:input={handleChange}
-		/>
-		{#if hint}
-			<p>{hint}</p>
-		{/if}
-	</form>
+		<form on:submit={handleSubmit}>
+			<input
+				type="text"
+				placeholder="Guess the song name..."
+				value={songTitleGuess}
+				on:input={handleChange}
+			/>
+			{#if hint}
+				<p>{hint}</p>
+			{/if}
+		</form>
+	{:else if state === 'GAVE UP'}
+		<h2>Answer: {song.title}</h2>
+		<audio controls src={`/songs/${song.path}`} />
+		<h2>You gave up??</h2>
+		<button
+			on:click={() => {
+				handleNextSong();
+			}}>Next Song</button
+		>
+	{:else}
+		<h2>You guessed right! The song was {song.title}</h2>
+		<audio controls src={`/songs/${song.path}`} />
+		<button
+			on:click={() => {
+				handleNextSong();
+			}}>Next Song</button
+		>
+	{/if}
 </article>

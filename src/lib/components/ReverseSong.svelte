@@ -1,6 +1,6 @@
 <!-- ReversedAudio.svelte -->
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import type { ISong } from '../types';
 
 	export let song: ISong;
@@ -40,6 +40,10 @@
 		} catch (err) {
 			console.error(`Error loading audio: ${err}`);
 		}
+	});
+
+	onDestroy(() => {
+		pause();
 	});
 
 	function play() {
