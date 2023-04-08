@@ -4,6 +4,7 @@
 	import type { ISong } from '../types';
 
 	export let song: ISong;
+	export let onSongStart: () => void;
 
 	let audioBuffer;
 	let reversedBuffer;
@@ -50,6 +51,7 @@
 		if (!sourceNode) {
 			return;
 		}
+		onSongStart();
 		// Create a new audio buffer source node and set the buffer as its source
 		const audioContext = new AudioContext();
 		sourceNode = audioContext.createBufferSource();
@@ -63,7 +65,7 @@
 		isPlaying = true;
 	}
 	function pause() {
-		if (!sourceNode) {
+		if (!sourceNode || sourceNode.onended === null) {
 			return;
 		}
 

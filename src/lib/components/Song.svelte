@@ -11,6 +11,8 @@
 
 	type State = 'GUESSING' | 'CORRECT' | 'GAVE UP';
 	let state: State = 'GUESSING';
+	let time = 0;
+	let interval: number;
 
 	function levenshteinDistance(s1: string, s2: string): number {
 		const m = s1.length;
@@ -56,6 +58,7 @@
 		// TODO: make this more engaging.
 		if (normalizedGuess === normalizedAnswer) {
 			state = 'CORRECT';
+			stopCounter();
 		} else {
 			const distance = levenshteinDistance(normalizedGuess, normalizedAnswer);
 
@@ -85,8 +88,26 @@
 		songTitleGuess = input.value;
 	}
 
+	function startCounter() {
+		console.log('start');
+		if (time === 0) {
+			interval = setInterval(() => {
+				time += 1;
+			}, 1000);
+		}
+	}
+
+	function stopCounter() {
+		if (time === 0) {
+			return;
+		}
+
+		clearInterval(interval);
+	}
+
 	function handleGiveUp() {
 		state = 'GAVE UP';
+		stopCounter();
 	}
 
 	$: {
@@ -94,14 +115,18 @@
 		state = 'GUESSING';
 		songTitleGuess = '';
 		hint = '';
+		time = 0;
 	}
+
+	$: minutes = Math.floor(time / 60);
+	$: seconds = time % 60;
 </script>
 
 <article>
 	{#if state === 'GUESSING'}
 		<h2>What song is this?</h2>
 		<button on:click={handleGiveUp}>Give Up</button>
-		<ReverseSong {song} />
+		<ReverseSong {song} onSongStart={startCounter} />
 
 		<form on:submit={handleSubmit}>
 			<input
@@ -109,6 +134,7 @@
 				placeholder="Guess the song name..."
 				value={songTitleGuess}
 				on:input={handleChange}
+				on:focus={startCounter}
 			/>
 			{#if hint}
 				<p>{hint}</p>
@@ -131,5 +157,16 @@
 				handleNextSong();
 			}}>Next Song</button
 		>
+	{/if}
+
+	{#if interval}
+		<p>
+			{#if state !== 'GUESSING'}
+				<span> Score: </span>
+			{/if}
+			{minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })}
+			:
+			{seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}
+		</p>
 	{/if}
 </article>
