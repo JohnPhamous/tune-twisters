@@ -57,9 +57,9 @@
 		return matrix[m][n];
 	}
 
-	function handleSubmit(event: Event) {
+	function handleSubmit(event?: Event) {
 		numGuesses++;
-		event.preventDefault();
+		event?.preventDefault();
 		const normalizedGuess = songTitleGuess.toLowerCase();
 		const normalizedAnswer = song.title.toLowerCase();
 
@@ -94,6 +94,8 @@
 	function handleChange(event) {
 		const input = event.target as HTMLInputElement;
 		songTitleGuess = input.value;
+
+		handleSubmit();
 	}
 
 	async function handleCorrectGuess() {
