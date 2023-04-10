@@ -23,6 +23,17 @@
 
 	let currentSong = 0;
 	let isGameOver = false;
+	let sessionId = getSessionId();
+
+	function getSessionId() {
+		const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			const r = (Math.random() * 16) | 0;
+			const v = c === 'x' ? r : (r & 0x3) | 0x8;
+			return v.toString(16);
+		});
+
+		return uuid;
+	}
 
 	function handleNextSong() {
 		const nextSong = currentSong + 1;
@@ -34,6 +45,12 @@
 
 		currentSong = nextSong;
 	}
+
+	function restart() {
+		currentSong = 0;
+		isGameOver = false;
+		sessionId = getSessionId();
+	}
 </script>
 
 <h1>Tune Twisters</h1>
@@ -42,7 +59,8 @@
 <section class="flex flex-col gap-32 pt-36">
 	{#if isGameOver}
 		<h2>Game Over</h2>
+		<button on:click={restart}>Play Again</button>
 	{:else}
-		<Song song={songs[currentSong]} {handleNextSong} />
+		<Song song={songs[currentSong]} {handleNextSong} {sessionId} />
 	{/if}
 </section>

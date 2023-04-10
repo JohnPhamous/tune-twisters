@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { supabaseClient } from '$lib/supabase';
 	import type { ISong } from '../types';
 	import ReverseSong from './ReverseSong.svelte';
 
 	export let song: ISong;
+	export let sessionId: string;
 	export let handleNextSong: () => void;
 
 	let songTitleGuess: string = '';
@@ -13,6 +15,8 @@
 	let state: State = 'GUESSING';
 	let time = 0;
 	let interval: number;
+	let numGuesses = 0;
+	let percentileRank = 0;
 
 	function levenshteinDistance(s1: string, s2: string): number {
 		const m = s1.length;
@@ -51,6 +55,7 @@
 	}
 
 	function handleSubmit(event: Event) {
+		numGuesses++;
 		event.preventDefault();
 		const normalizedGuess = songTitleGuess.toLowerCase();
 		const normalizedAnswer = song.title.toLowerCase();
@@ -58,7 +63,7 @@
 		// TODO: make this more engaging.
 		if (normalizedGuess === normalizedAnswer) {
 			state = 'CORRECT';
-			stopCounter();
+			handleCorrectGuess();
 		} else {
 			const distance = levenshteinDistance(normalizedGuess, normalizedAnswer);
 
@@ -88,8 +93,20 @@
 		songTitleGuess = input.value;
 	}
 
+	async function handleCorrectGuess() {
+		stopCounter();
+		const { data, error } = await supabaseClient.from('tune_twisters').insert([
+			{
+				env: process.env.NODE_ENV,
+				session_id: sessionId,
+				song_id: song.title,
+				score: time,
+				num_guesses: numGuesses
+			}
+		]);
+	}
+
 	function startCounter() {
-		console.log('start');
 		if (time === 0) {
 			interval = setInterval(() => {
 				time += 1;
@@ -116,15 +133,35 @@
 		songTitleGuess = '';
 		hint = '';
 		time = 0;
+		numGuesses = 0;
 	}
 
 	$: minutes = Math.floor(time / 60);
 	$: seconds = time % 60;
+
+	let songScores = [];
+
+	async function getScores(songId: string, score: number) {
+		const { data, error } = await supabaseClient
+			.rpc('get_percentile_rank', {
+				song_param: songId,
+				env_param: process.env.NODE_ENV,
+				score_param: score
+			})
+			.single();
+
+		percentileRank = (100 - data.percentile_rank).toFixed(0);
+	}
+	$: {
+		if (state === 'CORRECT') {
+			getScores(song.title, time);
+		}
+	}
 </script>
 
 <article>
 	{#if state === 'GUESSING'}
-		<h2>What song is this?</h2>
+		<h2>What song is this? {song.title}</h2>
 		<button on:click={handleGiveUp}>Give Up</button>
 		<ReverseSong {song} onSongStart={startCounter} />
 
@@ -151,6 +188,7 @@
 		>
 	{:else}
 		<h2>You guessed right! The song was {song.title}</h2>
+		<p>You guessed faster than {percentileRank}% of others</p>
 		<audio controls src={`/songs/${song.path}`} />
 		<button
 			on:click={() => {
