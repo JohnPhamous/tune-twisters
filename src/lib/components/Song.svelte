@@ -14,6 +14,7 @@
 	type State = 'GUESSING' | 'CORRECT' | 'GAVE UP';
 	let state: State = 'GUESSING';
 	let time = 0;
+	let timerStarted = false;
 	let interval: number;
 	let numGuesses = 0;
 	let percentileRank = 0;
@@ -107,18 +108,20 @@
 	}
 
 	function startCounter() {
-		if (time === 0) {
+		if (!timerStarted) {
 			interval = setInterval(() => {
 				time += 1;
 			}, 1000);
+			timerStarted = true;
 		}
 	}
 
 	function stopCounter() {
-		if (time === 0) {
+		if (!timerStarted) {
 			return;
 		}
 
+		timerStarted = false;
 		clearInterval(interval);
 	}
 
@@ -138,8 +141,6 @@
 
 	$: minutes = Math.floor(time / 60);
 	$: seconds = time % 60;
-
-	let songScores = [];
 
 	async function getScores(songId: string, score: number) {
 		const { data, error } = await supabaseClient
