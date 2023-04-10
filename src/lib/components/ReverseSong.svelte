@@ -78,8 +78,8 @@
 
 <div>
 	{#if isPlaying}
-		<button on:click={pause}>Stop</button>
+		<button on:click={pause}>Pause Music</button>
 	{:else}
-		<button on:click={play}>Play</button>
+		<button on:click={play}>Play Music</button>
 	{/if}
 </div>

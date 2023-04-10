@@ -117,7 +117,7 @@
 			}, 10);
 			timerStarted = true;
 		}
-		inputElement.focus();
+		// inputElement.focus();
 	}
 
 	function stopCounter() {
@@ -168,8 +168,6 @@
 
 <article>
 	{#if state === 'GUESSING'}
-		<h2>What song is this?</h2>
-		<button on:click={handleGiveUp}>Give Up</button>
 		<ReverseSong
 			{song}
 			onSongStart={() => {
@@ -177,19 +175,24 @@
 			}}
 		/>
 
-		<form on:submit={handleSubmit}>
-			<input
-				type="text"
-				placeholder="Guess the song name..."
-				value={songTitleGuess}
-				on:input={handleChange}
-				on:focus={startCounter}
-				bind:this={inputElement}
-			/>
-			{#if hint}
-				<p>{hint}</p>
-			{/if}
-		</form>
+		{#if timerStarted}
+			<h2>What song is this?</h2>
+			<form on:submit={handleSubmit}>
+				<input
+					autofocus
+					type="text"
+					placeholder="Guess the song name..."
+					value={songTitleGuess}
+					on:input={handleChange}
+					on:focus={startCounter}
+					bind:this={inputElement}
+				/>
+				{#if hint}
+					<p>{hint}</p>
+				{/if}
+			</form>
+			<button on:click={handleGiveUp}>Give Up</button>
+		{/if}
 	{:else if state === 'GAVE UP'}
 		<h2>Answer: {song.title}</h2>
 		<audio controls src={`/songs/${song.path}`} />
@@ -201,7 +204,9 @@
 		>
 	{:else}
 		<h2>You guessed right! The song was {song.title}</h2>
-		<p>You guessed faster than {percentileRank}% of others</p>
+		<p>
+			You guessed faster than {percentileRank}% ({totalSeconds}.{milliseconds} seconds) of others
+		</p>
 		<audio controls src={`/songs/${song.path}`} />
 		<button
 			on:click={() => {
@@ -210,7 +215,7 @@
 		>
 	{/if}
 
-	{#if interval && state !== 'GAVE UP'}
+	{#if timerStarted && state !== 'GAVE UP'}
 		<p>
 			{#if state !== 'GUESSING'}
 				<span> Score: </span>
