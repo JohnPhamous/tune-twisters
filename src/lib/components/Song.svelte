@@ -168,7 +168,7 @@
 
 <article>
 	{#if state === 'GUESSING'}
-		<h2>What song is this? {song.title}</h2>
+		<h2>What song is this?</h2>
 		<button on:click={handleGiveUp}>Give Up</button>
 		<ReverseSong
 			{song}
@@ -210,7 +210,7 @@
 		>
 	{/if}
 
-	{#if interval}
+	{#if interval && state !== 'GAVE UP'}
 		<p>
 			{#if state !== 'GUESSING'}
 				<span> Score: </span>
