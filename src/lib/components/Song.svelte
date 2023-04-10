@@ -18,6 +18,7 @@
 	let interval: number;
 	let numGuesses = 0;
 	let percentileRank = 0;
+	let inputElement: HTMLInputElement;
 
 	function levenshteinDistance(s1: string, s2: string): number {
 		const m = s1.length;
@@ -113,6 +114,7 @@
 				time += 1;
 			}, 1000);
 			timerStarted = true;
+			inputElement.focus();
 		}
 	}
 
@@ -164,7 +166,12 @@
 	{#if state === 'GUESSING'}
 		<h2>What song is this? {song.title}</h2>
 		<button on:click={handleGiveUp}>Give Up</button>
-		<ReverseSong {song} onSongStart={startCounter} />
+		<ReverseSong
+			{song}
+			onSongStart={() => {
+				startCounter();
+			}}
+		/>
 
 		<form on:submit={handleSubmit}>
 			<input
@@ -173,6 +180,7 @@
 				value={songTitleGuess}
 				on:input={handleChange}
 				on:focus={startCounter}
+				bind:this={inputElement}
 			/>
 			{#if hint}
 				<p>{hint}</p>
