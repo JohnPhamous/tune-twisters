@@ -8,8 +8,8 @@
 			title: 'Uptown Funk'
 		},
 		{
-			path: '/uptown-funk.mp3',
-			title: 'Sandstorm'
+			path: '/we-found-love.mp3',
+			title: 'We Found Love'
 		}
 		// {
 		// 	path: '',
