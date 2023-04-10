@@ -36,6 +36,7 @@
 			const audioContext = new AudioContext();
 			sourceNode = audioContext.createBufferSource();
 			sourceNode.buffer = reversedBuffer;
+			sourceNode.loop = true;
 
 			sourceNode.connect(audioContext.destination);
 		} catch (err) {
@@ -57,6 +58,7 @@
 		sourceNode = audioContext.createBufferSource();
 		sourceNode.buffer = reversedBuffer;
 		sourceNode.connect(audioContext.destination);
+		sourceNode.loop = true;
 
 		sourceNode.start();
 		sourceNode.onended = () => {

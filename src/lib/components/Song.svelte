@@ -114,8 +114,8 @@
 				time += 1;
 			}, 1000);
 			timerStarted = true;
-			inputElement.focus();
 		}
+		inputElement.focus();
 	}
 
 	function stopCounter() {
