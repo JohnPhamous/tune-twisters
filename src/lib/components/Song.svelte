@@ -14,6 +14,7 @@
 	type State = 'GUESSING' | 'CORRECT' | 'GAVE UP';
 	let state: State = 'GUESSING';
 	let time = 0;
+	let startTime: number | null = null;
 	let timerStarted = false;
 	let interval: number;
 	let numGuesses = 0;
@@ -110,9 +111,10 @@
 
 	function startCounter() {
 		if (!timerStarted) {
+			startTime = Date.now();
 			interval = setInterval(() => {
-				time += 1;
-			}, 1000);
+				time = Date.now() - (startTime ?? 0);
+			}, 10);
 			timerStarted = true;
 		}
 		inputElement.focus();
@@ -141,8 +143,10 @@
 		numGuesses = 0;
 	}
 
-	$: minutes = Math.floor(time / 60);
-	$: seconds = time % 60;
+	$: totalSeconds = Math.floor(time / 1000);
+	$: minutes = Math.floor(totalSeconds / 60);
+	$: seconds = totalSeconds % 60;
+	$: milliseconds = time % 1000;
 
 	async function getScores(songId: string, score: number) {
 		const { data, error } = await supabaseClient
@@ -211,9 +215,9 @@
 			{#if state !== 'GUESSING'}
 				<span> Score: </span>
 			{/if}
-			{minutes.toLocaleString('en-US', { minimumIntegerDigits: 2 })}
-			:
-			{seconds.toLocaleString('en-US', { minimumIntegerDigits: 2 })}
+			<span>{minutes.toString().padStart(2, '0')}: </span>
+			<span>{seconds.toString().padStart(2, '0')}. </span>
+			<span>{milliseconds.toString().padStart(3, '0')}</span>
 		</p>
 	{/if}
 </article>
