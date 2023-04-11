@@ -179,7 +179,7 @@
 				<SevenSegmentNumber number={parseInt(digit, 10)} />
 			{/each}
 
-			<span class="colon">
+			<span class="colon {minutes > 0 ? 'on' : 'off'}">
 				<span />
 				<span />
 			</span>
@@ -264,6 +264,10 @@
 		height: 8px;
 		width: 8px;
 		background: var(--off-color);
+	}
+
+	.colon.on span {
+		background: var(--on-color);
 	}
 
 	.dot {
