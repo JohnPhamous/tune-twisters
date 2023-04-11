@@ -20,7 +20,7 @@
 		},
 		{
 			path: '/call-me-maybe.mp3',
-			title: 'Call Me Mayber',
+			title: 'Call Me Maybe',
 			artist: 'Carly Rae Jepsen'
 		},
 		{
@@ -55,7 +55,7 @@
 		},
 		{
 			path: '/rolling-in-deep.mp3',
-			title: 'Rolling In Deep',
+			title: 'Rolling in the Deep',
 			artist: 'Adele'
 		},
 		{
@@ -70,7 +70,7 @@
 		},
 		{
 			path: '/somebody-that-i-used-to-know.mp3',
-			title: 'Somebody that I used to Know',
+			title: 'Somebody That I Used to Know',
 			artist: 'Gotye ft. Kimbra'
 		},
 		{

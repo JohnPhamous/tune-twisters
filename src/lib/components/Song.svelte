@@ -143,7 +143,7 @@
 			<button on:click={handleGiveUp}>Give Up</button>
 		{/if}
 	{:else if state === 'GAVE UP'}
-		<h2>Answer: {song.title}</h2>
+		<h2>Answer: {song.title} by {song.artist}</h2>
 		<audio controls src={`/songs/${song.path}`} />
 		<h2>You gave up??</h2>
 		<button
