@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import SevenSegmentNumber from '$lib/components/SevenSegmentNumber.svelte';
+	import Tuny from '$lib/components/Tuny.svelte';
 	import { supabaseClient } from '$lib/supabase';
 	import { getHint } from '$lib/utils';
 	import type { ISong } from '../types';
@@ -130,7 +131,7 @@
 		{#if timerStarted}
 			<div class="guessing">
 				<h2 class="header" data-text="What song is this?">What song is this?</h2>
-				<form on:submit={handleSubmit}>
+				<form on:submit={handleSubmit} class="form">
 					<input
 						class="input"
 						autofocus
@@ -142,9 +143,7 @@
 						on:focus={startCounter}
 						bind:this={inputElement}
 					/>
-					{#if hint}
-						<p>{hint}</p>
-					{/if}
+					<Tuny message={hint} />
 				</form>
 				<Button onClick={handleGiveUp} variant="secondary">Give Up</Button>
 			</div>
@@ -294,5 +293,10 @@
 		border: 3px solid gray;
 		padding: 0 4px;
 		width: 100%;
+		font-size: 20px;
+	}
+
+	.form {
+		/* height: 60px; */
 	}
 </style>

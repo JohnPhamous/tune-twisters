@@ -123,7 +123,7 @@
 </div>
 <p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺₊✧</p>
 
-<section class="flex flex-col gap-32 pt-36">
+<section class="flex flex-col gap-32 pt-12">
 	{#if isGameOver}
 		<h2>Game Over</h2>
 		<button on:click={restart} class="button">Play Again</button>
