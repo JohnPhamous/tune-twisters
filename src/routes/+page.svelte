@@ -117,15 +117,68 @@
 	}
 </script>
 
-<h1>Tune Twisters</h1>
-<h2>Songs in reverse. Guess the song name as fast as you can.</h2>
-<p>2010s Edition</p>
+<h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
+<div class="subtitle-container">
+	<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
+</div>
+<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺₊✧</p>
 
 <section class="flex flex-col gap-32 pt-36">
 	{#if isGameOver}
 		<h2>Game Over</h2>
-		<button on:click={restart}>Play Again</button>
+		<button on:click={restart} class="button">Play Again</button>
 	{:else}
 		<Song song={songs[currentSong]} {handleNextSong} {sessionId} />
 	{/if}
 </section>
+
+<style>
+	.header {
+		font-weight: 900;
+		color: transparent;
+		background: linear-gradient(
+			to left,
+			#a104ad,
+			#0b2be0,
+			#329941,
+			#f7f658,
+			#f16412,
+			#e92153,
+			#aa04a7
+		);
+		-webkit-text-fill-color: transparent;
+		-webkit-text-stroke: 0.016em #eaeaea;
+		-webkit-background-clip: text;
+		background-clip: text;
+		letter-spacing: 0.1rem;
+		font-size: 42px;
+	}
+
+	.header::before {
+		position: absolute;
+		content: attr(data-content);
+		z-index: -1;
+		color: #cdcdcd;
+		-webkit-text-fill-color: #777777;
+		-webkit-text-stroke: transparent;
+		transform: rotateX(63deg) skew(60deg) scaleY(0.65) translate3d(2em, -2.15em, -1em);
+	}
+
+	.subtitle {
+		color: #24c0fd;
+		-webkit-text-stroke: 0.01em #0000aa;
+		text-shadow: 0.13em -0.13em 0px #0000aa;
+		letter-spacing: -0.05em;
+		font-size: 32px;
+		font-family: Impact, sans-serif;
+		font-weight: bold;
+	}
+
+	.edition {
+		border: 1px dashed blue;
+		width: fit-content;
+		padding: 0 4px;
+		color: blue;
+		font-size: 24px;
+	}
+</style>

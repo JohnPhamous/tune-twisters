@@ -2,6 +2,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import type { ISong } from '../types';
+	import Button from '$lib/components/Button.svelte';
 
 	export let song: ISong;
 	export let onSongStart: () => void;
@@ -78,8 +79,8 @@
 
 <div>
 	{#if isPlaying}
-		<button on:click={pause}>Pause Music</button>
+		<Button onClick={pause} ariaLabel="Pause Song">⏹</Button>
 	{:else}
-		<button on:click={play}>Play Music</button>
+		<Button onClick={play} ariaLabel="Play Song">▶</Button>
 	{/if}
 </div>
