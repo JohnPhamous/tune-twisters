@@ -132,9 +132,11 @@
 				<h2 class="header" data-text="What song is this?">What song is this?</h2>
 				<form on:submit={handleSubmit}>
 					<input
+						class="input"
 						autofocus
+						autocorrect={'off'}
 						type="text"
-						placeholder="Guess the song name..."
+						placeholder="Guess the song name ♪(๑ᴖ◡ᴖ๑)♪"
 						value={songTitleGuess}
 						on:input={handleChange}
 						on:focus={startCounter}
@@ -286,5 +288,11 @@
 		height: 8px;
 		width: 8px;
 		background: var(--on-color);
+	}
+
+	.input {
+		border: 3px solid gray;
+		padding: 0 4px;
+		width: 100%;
 	}
 </style>
