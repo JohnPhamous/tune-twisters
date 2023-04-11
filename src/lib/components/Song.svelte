@@ -205,7 +205,7 @@
 			}}>Next Song</button
 		>
 	{:else}
-		<h2>You guessed right! The song was {song.title}</h2>
+		<h2>You guessed right! The song was {song.title} by {song.artist}</h2>
 		<p>
 			You guessed faster than {percentileRank}% ({totalSeconds}.{milliseconds} seconds) of others
 		</p>
