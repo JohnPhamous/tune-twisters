@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TunySmall from '$lib/components/TunySmall.svelte';
 	import Song from '../lib/components/Song.svelte';
 	import type { ISong } from '../lib/types';
 
@@ -129,6 +130,7 @@
 		<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
 	</div>
 	<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺</p>
+	<TunySmall message="Make sure your phone is not on mute!" />
 {/if}
 
 <section class="flex flex-col gap-32 pt-4">
