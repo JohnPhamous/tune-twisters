@@ -54,7 +54,7 @@
 		position: absolute;
 		height: 64px;
 		width: 360px;
-		top: 109px;
+		transform: translateY(-48px);
 		display: flex;
 		align-items: flex-end;
 	}
