@@ -71,9 +71,6 @@
 			timerStarted = true;
 		}
 		onGameStart();
-		setTimeout(() => {
-			inputElement.focus();
-		}, 200);
 	}
 
 	function stopCounter() {
@@ -137,6 +134,7 @@
 				<h2 class="header" data-text="What song is this?">What song is this?</h2>
 				<form on:submit={handleSubmit} class="form">
 					<input
+						autofocus
 						bind:this={inputElement}
 						class="input"
 						autocorrect={'off'}
