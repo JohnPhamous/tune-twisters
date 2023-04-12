@@ -121,16 +121,15 @@
 	}
 </script>
 
-<h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
-
 {#if gameState !== 'Playing'}
+	<h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
 	<div class="subtitle-container">
 		<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
 	</div>
 	<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺</p>
 {/if}
 
-<section class="flex flex-col gap-32 pt-12">
+<section class="flex flex-col gap-32 pt-4">
 	{#if gameState === 'GameOver'}
 		<h2>Game Over</h2>
 		<button on:click={restart} class="button">Play Again</button>
