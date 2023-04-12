@@ -86,7 +86,7 @@
 	{:else}
 		<Button onClick={play} ariaLabel="Play Song">
 			{#if isLoading}
-				Loading...
+				⏳
 			{:else}
 				Start
 			{/if}

@@ -5,13 +5,14 @@
 	import TunySmall from '$lib/components/TunySmall.svelte';
 	import { supabaseClient } from '$lib/supabase';
 	import { getHint } from '$lib/utils';
-	import type { ISong } from '../types';
+	import type { IScore, ISong } from '../types';
 	import ReverseSong from './ReverseSong.svelte';
 
 	export let song: ISong;
 	export let sessionId: string;
 	export let handleNextSong: () => void;
 	export let onGameStart: () => void;
+	export let addScore: (score: IScore) => void;
 
 	let songTitleGuess: string = '';
 	let hint: string = '';
@@ -86,6 +87,10 @@
 	function handleGiveUp() {
 		state = 'GAVE UP';
 		stopCounter();
+		addScore({
+			songTitle: song.title,
+			score: `fail—you gave up`
+		});
 	}
 
 	function hashString(str: string) {
@@ -98,7 +103,11 @@
 	}
 
 	$: {
-		console.log(hashString(song.title));
+		if (process.env.NODE_ENV === 'development') {
+			console.log(song.title);
+		} else {
+			console.log(hashString(song.title));
+		}
 		state = 'GUESSING';
 		songTitleGuess = '';
 		hint = '';
@@ -121,6 +130,10 @@
 			.single();
 
 		percentileRank = (100 - data.percentile_rank).toFixed(0);
+		addScore({
+			songTitle: songId,
+			score: `${percentileRank}% faster than others (${totalSeconds} seconds)`
+		});
 	}
 	$: {
 		if (state === 'CORRECT') {

@@ -3,3 +3,8 @@ export interface ISong {
 	path: string;
 	artist: string;
 }
+
+export interface IScore {
+	songTitle: string;
+	score: string;
+}

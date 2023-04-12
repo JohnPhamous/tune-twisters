@@ -1,7 +1,8 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import TunySmall from '$lib/components/TunySmall.svelte';
 	import Song from '../lib/components/Song.svelte';
-	import type { ISong } from '../lib/types';
+	import type { IScore, ISong } from '../lib/types';
 
 	const ALL_SONGS: ISong[] = [
 		{
@@ -85,6 +86,7 @@
 			artist: 'Halsey'
 		}
 	];
+	const scores: IScore[] = [];
 
 	const songs = ALL_SONGS.sort(() => Math.random() - 0.5);
 
@@ -122,9 +124,13 @@
 	function onGameStart() {
 		gameState = 'Playing';
 	}
+
+	function addScore(score: IScore) {
+		scores.push(score);
+	}
 </script>
 
-{#if gameState !== 'Playing'}
+{#if gameState !== 'Playing' && gameState !== 'GameOver'}
 	<h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
 	<div class="subtitle-container">
 		<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
@@ -135,10 +141,21 @@
 
 <section class="flex flex-col gap-32 pt-4">
 	{#if gameState === 'GameOver'}
-		<h2>Game Over</h2>
-		<button on:click={restart} class="button">Play Again</button>
+		<div>
+			<h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
+			<h2 class="game-over">Game Over</h2>
+		</div>
+		<div>
+			<h3 class="edition">Scores</h3>
+			{#each scores as score}
+				<p class="score">
+					{score.songTitle}: {score.score}
+				</p>
+			{/each}
+		</div>
+		<Button onClick={restart} variant="secondary">Play Again</Button>
 	{:else}
-		<Song song={songs[currentSong]} {handleNextSong} {sessionId} {onGameStart} />
+		<Song song={songs[currentSong]} {handleNextSong} {sessionId} {onGameStart} {addScore} />
 	{/if}
 </section>
 
@@ -191,5 +208,49 @@
 		padding: 0 4px;
 		color: blue;
 		font-size: 24px;
+	}
+
+	.game-over {
+		animation-name: example;
+		animation-duration: 1s;
+		animation-iteration-count: infinite;
+		font-size: 71px;
+		font-family: Impact, sans-serif;
+	}
+
+	@keyframes example {
+		0% {
+			color: lime;
+			text-shadow: 0 0 20px green;
+		}
+		25% {
+			color: green;
+			text-shadow: 2px 2px 2px lime;
+			transform: translate(-2px, 1px);
+		}
+		40% {
+			color: lime;
+			text-shadow: none;
+			transform: translate(0, 0);
+		}
+		50% {
+			color: green;
+			text-shadow: 5px 5px 2px blue, -5px -5px 2px red;
+			transform: translate(0px, 5px);
+		}
+		70% {
+			color: lime;
+			text-shadow: none;
+			transform: translate(0, 0);
+		}
+		80% {
+			color: lime;
+			text-shadow: 0 0 20px green;
+			transform: translate(-2px, 1px);
+		}
+		100% {
+			color: lime;
+			text-shadow: none;
+		}
 	}
 </style>
