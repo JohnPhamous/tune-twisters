@@ -333,10 +333,12 @@
 		font-weight: bold;
 		display: inline-block;
 		transform: skew(0, -15deg) scale(1.5, 1.5);
-		width: 3ch;
+		width: 4ch;
 	}
 
 	.rank-container .rank {
+		display: inline-block;
+		transform: translateX(4px);
 		font-family: Impact;
 		background: #fdea00;
 		background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -344,5 +346,6 @@
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
+		filter: drop-shadow(2px 2px 0px black);
 	}
 </style>
