@@ -5,5 +5,11 @@
 body {
 	background-image: url('/texture.gif');
 	border: 7px dashed gray;
-	min-height: 100vh;
+	min-height: calc(100vh - 6rem);
+}
+
+@supports (height: 100dvh) {
+	body {
+		min-height: calc(100dvh - 6rem);
+	}
 }

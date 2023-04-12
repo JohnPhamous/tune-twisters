@@ -81,6 +81,6 @@
 	{#if isPlaying}
 		<Button onClick={pause} ariaLabel="Pause Song">⏹</Button>
 	{:else}
-		<Button onClick={play} ariaLabel="Play Song">▶</Button>
+		<Button onClick={play} ariaLabel="Play Song">Start</Button>
 	{/if}
 </div>
