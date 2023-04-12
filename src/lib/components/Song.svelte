@@ -333,6 +333,7 @@
 		font-weight: bold;
 		display: inline-block;
 		transform: skew(0, -15deg) scale(1.5, 1.5);
+		width: 3ch;
 	}
 
 	.rank-container .rank {
