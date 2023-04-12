@@ -71,7 +71,9 @@
 			timerStarted = true;
 		}
 		onGameStart();
-		// inputElement.focus();
+		setTimeout(() => {
+			inputElement.focus();
+		}, 200);
 	}
 
 	function stopCounter() {
@@ -135,15 +137,14 @@
 				<h2 class="header" data-text="What song is this?">What song is this?</h2>
 				<form on:submit={handleSubmit} class="form">
 					<input
+						bind:this={inputElement}
 						class="input"
-						autofocus
 						autocorrect={'off'}
 						type="text"
 						placeholder="Guess the song name ♪(๑ᴖ◡ᴖ๑)♪"
 						value={songTitleGuess}
 						on:input={handleChange}
 						on:focus={startCounter}
-						bind:this={inputElement}
 					/>
 					<Tuny message={hint} />
 				</form>
