@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import SevenSegmentNumber from '$lib/components/SevenSegmentNumber.svelte';
 	import Tuny from '$lib/components/Tuny.svelte';
+	import TunySmall from '$lib/components/TunySmall.svelte';
 	import { supabaseClient } from '$lib/supabase';
 	import { getHint } from '$lib/utils';
 	import type { ISong } from '../types';
@@ -150,24 +151,36 @@
 			</div>
 		{/if}
 	{:else if state === 'GAVE UP'}
-		<h2>Answer: {song.title} by {song.artist}</h2>
-		<audio controls src={`/songs/${song.path}`} />
-		<h2>You gave up??</h2>
-		<button
-			on:click={() => {
-				handleNextSong();
-			}}>Next Song</button
-		>
+		<div class="gave-up-container">
+			<div class="answer">
+				<h2 class="text"><span class="label">Answer:</span> {song.title} by {song.artist}</h2>
+			</div>
+			<audio controls src={`/songs/${song.path}`} />
+			<TunySmall message={'You gave up??'} />
+			<Button
+				variant="secondary"
+				onClick={() => {
+					handleNextSong();
+				}}>Next Song</Button
+			>
+		</div>
 	{:else}
-		<h2>You guessed right! The song was {song.title} by {song.artist}</h2>
-		<p>
-			You guessed faster than {percentileRank}% ({totalSeconds}.{milliseconds} seconds) of others
-		</p>
+		<div class="answer">
+			<h2 class="text"><span class="label">Answer:</span> {song.title} by {song.artist}</h2>
+		</div>
 		<audio controls src={`/songs/${song.path}`} />
-		<button
-			on:click={() => {
+		<TunySmall message={'Nice! You guessed correct.'} />
+		<p>
+			You guessed faster than <span class="rank-container"
+				><span class="rank">{percentileRank}%</span></span
+			>
+			({totalSeconds}.{milliseconds} seconds) of others
+		</p>
+		<Button
+			variant="secondary"
+			onClick={() => {
 				handleNextSong();
-			}}>Next Song</button
+			}}>Next Song</Button
 		>
 	{/if}
 
@@ -297,7 +310,38 @@
 		font-size: 20px;
 	}
 
-	.form {
-		/* height: 60px; */
+	.answer {
+		transform: scale(1, 1.3);
+	}
+
+	.answer .text {
+		letter-spacing: -0.01em;
+		font-family: Arial, sans-serif;
+		font-weight: bold;
+		font-style: italic;
+		color: #fff;
+		-webkit-text-stroke: 0.01em #000;
+		text-shadow: 0.03em 0.03em 0 #6d6d6d;
+		font-size: 24px;
+	}
+
+	.answer .label {
+		color: lightgray;
+	}
+
+	.rank-container {
+		font-weight: bold;
+		display: inline-block;
+		transform: skew(0, -15deg) scale(1.5, 1.5);
+	}
+
+	.rank-container .rank {
+		font-family: Impact;
+		background: #fdea00;
+		background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+		background: linear-gradient(to bottom, #ff1818 0%, #ffb700 44%, #fc2700 100%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
 	}
 </style>
