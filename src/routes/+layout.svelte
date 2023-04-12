@@ -1,4 +1,5 @@
 <script>
+	import '@fontsource/comic-neue';
 	import '../app.css';
 
 	import { dev } from '$app/environment';
