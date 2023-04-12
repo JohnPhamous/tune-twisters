@@ -2,7 +2,7 @@
 	import Song from '../lib/components/Song.svelte';
 	import type { ISong } from '../lib/types';
 
-	const songs: ISong[] = [
+	const ALL_SONGS: ISong[] = [
 		{
 			path: '/uptown-funk.mp3',
 			title: 'Uptown Funk',
@@ -84,6 +84,8 @@
 			artist: 'Halsey'
 		}
 	];
+
+	const songs = ALL_SONGS.sort(() => Math.random() - 0.5);
 
 	let currentSong = 0;
 	let gameState: 'Landing' | 'Playing' | 'GameOver' = 'Landing';
