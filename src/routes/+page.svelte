@@ -86,7 +86,7 @@
 	];
 
 	let currentSong = 0;
-	let isGameOver = false;
+	let gameState: 'Landing' | 'Playing' | 'GameOver' = 'Landing';
 	let sessionId = getSessionId();
 
 	function getSessionId() {
@@ -103,7 +103,7 @@
 		const nextSong = currentSong + 1;
 
 		if (nextSong === songs.length) {
-			isGameOver = true;
+			gameState = 'GameOver';
 			return;
 		}
 
@@ -112,23 +112,30 @@
 
 	function restart() {
 		currentSong = 0;
-		isGameOver = false;
+		gameState = 'Landing';
 		sessionId = getSessionId();
+	}
+
+	function onGameStart() {
+		gameState = 'Playing';
 	}
 </script>
 
 <h1 class="header" data-content="Tune Twisters">Tune Twisters</h1>
-<div class="subtitle-container">
-	<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
-</div>
-<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺</p>
+
+{#if gameState !== 'Playing'}
+	<div class="subtitle-container">
+		<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
+	</div>
+	<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺</p>
+{/if}
 
 <section class="flex flex-col gap-32 pt-12">
-	{#if isGameOver}
+	{#if gameState === 'GameOver'}
 		<h2>Game Over</h2>
 		<button on:click={restart} class="button">Play Again</button>
 	{:else}
-		<Song song={songs[currentSong]} {handleNextSong} {sessionId} />
+		<Song song={songs[currentSong]} {handleNextSong} {sessionId} {onGameStart} />
 	{/if}
 </section>
 

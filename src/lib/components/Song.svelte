@@ -10,6 +10,7 @@
 	export let song: ISong;
 	export let sessionId: string;
 	export let handleNextSong: () => void;
+	export let onGameStart: () => void;
 
 	let songTitleGuess: string = '';
 	let hint: string = '';
@@ -69,6 +70,7 @@
 			}, 10);
 			timerStarted = true;
 		}
+		onGameStart();
 		// inputElement.focus();
 	}
 
