@@ -31,7 +31,7 @@
 		{
 			path: '/despacito.mp3',
 			title: 'Despacito',
-			artist: 'Luis Fonsi ft. Daddy Yankee'
+			artist: 'Luis Fonsi ft. Justin Bieber'
 		},
 		{
 			path: '/girls-like-you.mp3',
