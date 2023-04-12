@@ -11,9 +11,11 @@
 	let reversedBuffer;
 	let isPlaying = false;
 	let sourceNode: AudioBufferSourceNode;
+	let isLoading = true;
 
 	onMount(async () => {
 		try {
+			isLoading = true;
 			const response = await fetch(`/songs/${song.path}`);
 			const arrayBuffer = await response.arrayBuffer();
 			audioBuffer = await new AudioContext().decodeAudioData(arrayBuffer);
@@ -40,6 +42,7 @@
 			sourceNode.loop = true;
 
 			sourceNode.connect(audioContext.destination);
+			isLoading = false;
 		} catch (err) {
 			console.error(`Error loading audio: ${err}`);
 		}
@@ -81,6 +84,12 @@
 	{#if isPlaying}
 		<Button onClick={pause} ariaLabel="Pause Song">⏹</Button>
 	{:else}
-		<Button onClick={play} ariaLabel="Play Song">Start</Button>
+		<Button onClick={play} ariaLabel="Play Song">
+			{#if isLoading}
+				Loading...
+			{:else}
+				Start
+			{/if}
+		</Button>
 	{/if}
 </div>
