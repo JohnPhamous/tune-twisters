@@ -121,7 +121,7 @@
 <div class="subtitle-container">
 	<h2 class="subtitle">Songs in reverse. Guess the song name as fast as you can.</h2>
 </div>
-<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺₊✧</p>
+<p class="edition">2010s Edition ✩♬ ₊˚.🎧⋆☾⋆⁺</p>
 
 <section class="flex flex-col gap-32 pt-12">
 	{#if isGameOver}
