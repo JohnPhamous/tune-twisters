@@ -152,6 +152,7 @@
 		background-clip: text;
 		letter-spacing: 0.1rem;
 		font-size: 42px;
+		font-family: Impact, sans-serif;
 	}
 
 	.header::before {
@@ -167,7 +168,7 @@
 	.subtitle {
 		color: #24c0fd;
 		-webkit-text-stroke: 0.01em #0000aa;
-		text-shadow: 0.13em -0.13em 0px #0000aa;
+		text-shadow: 0.03em -0.13em 0.1px #0000aa;
 		letter-spacing: -0.05em;
 		font-size: 32px;
 		font-family: Impact, sans-serif;
@@ -175,7 +176,7 @@
 	}
 
 	.edition {
-		border: 1px dashed blue;
+		border: 3px dashed blue;
 		width: fit-content;
 		padding: 0 4px;
 		color: blue;
