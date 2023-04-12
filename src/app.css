@@ -6,7 +6,6 @@ body {
 	background-image: url('/texture.gif');
 	border: 7px dashed gray;
 	min-height: 100vh;
-	scroll-padding-top: 48px;
 }
 
 @supports (height: 100dvh) {
